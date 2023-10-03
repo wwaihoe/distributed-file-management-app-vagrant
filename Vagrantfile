@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "web" do |web|
     web.vm.box = "ubuntu/focal64"
-    web.vm.provision "shell", path: "provision/setup.sh", privileged: false
+    web.vm.provision "shell", path: "provision/nodesetup.sh", privileged: false
     web.vm.network "forwarded_port", guest: 8080, host: 8000
   end
 
@@ -14,7 +14,8 @@ Vagrant.configure("2") do |config|
 #    applogic.vm.box = "ubuntu/focal64"
 #  end
 
-#  config.vm.define "objectstore" do |objectstore|
-#    objectstore.vm.box = "ubuntu/focal64"
-#  end
+  config.vm.define "objectstore" do |objectstore|
+    objectstore.vm.box = "ubuntu/focal64"
+    objectstore.vm.provision "shell", path: "provision/miniosetup.sh", privileged: false
+  end
 end
