@@ -1,0 +1,58 @@
+[    5.917713] INFO: rcu_sched self-detected stall on CPU[  320.647015] INFO: rcu_sched detected stalls on CPUs/tasks:
+[  320.647072] 	1-...: (4 ticks this GP) idle=041/140000000000001/0 softirq=507/510 fqs=4 
+[  320.647073] 	(detected by 0, t=78691 jiffies, g=-161, c=-162, q=123)
+[  320.647112] Task dump for CPU 1:
+[  320.647131] modprobe        R  running task        0   247    233 0x00000008
+[  320.647305]  ffffffffc0115000 ffff880036ddfd30 ffffffff8185a350 ffff880036ddfea8
+[  320.647307]  0000000000000001 0000000000000001 ffff880036ddfe98 ffffffff8111254c
+[  320.647308]  ffffffffc0115000 ffffffff8110e9d0 ffff880036ddfdd0 ffffffff81a1b030
+[  320.647328] Call Trace:
+[  320.647804]  [<ffffffff8185a350>] ? do_init_module+0x5f/0x1da
+[  320.647951]  [<ffffffff8111254c>] ? load_module+0x171c/0x1c80
+[  320.647954]  [<ffffffff8110e9d0>] ? __symbol_put+0x60/0x60
+[  320.648010]  [<ffffffff81222b50>] ? kernel_read+0x50/0x80
+[  320.648012]  [<ffffffff81112cf4>] ? SYSC_finit_module+0xb4/0xe0
+[  320.648013]  [<ffffffff81112d3e>] ? SyS_finit_module+0xe/0x10
+[  320.648069]  [<ffffffff8186bb5b>] ? entry_SYSCALL_64_fastpath+0x22/0xd0
+[  320.648110] rcu_sched kthread starved for 78684 jiffies! g18446744073709551455 c18446744073709551454 f0x0 s3 ->state=0x1
+
+[    5.917713] 
+[    5.917713] 	1-...: (4 ticks this GP) idle=041/140000000000001/0 softirq=507/510 fqs=5 
+[    5.917713] 	 (t=78691 jiffies g=-161 c=-162 q=123)
+[    5.917713] Task dump for CPU 1:
+[    5.917713] modprobe        R  running task        0   247    233 0x00000008
+[    5.917713]  ffff88003aff0d00 eb08ab51e0447f6b ffff88003fd03da0 ffffffff810b4d89
+[    5.917713]  0000000000000001 ffffffff81e577c0 ffff88003fd03db8 ffffffff810b75b7
+[    5.917713]  0000000000000002 ffff88003fd03de8 ffffffff810ec56e ffff88003fd16f80
+[    5.917713] Call Trace:
+[    5.917713]  <IRQ>  [<ffffffff810b4d89>] sched_show_task+0xa9/0x110
+[    5.917713]  [<ffffffff810b75b7>] dump_cpu_task+0x37/0x40
+[    5.917713]  [<ffffffff810ec56e>] rcu_dump_cpu_stacks+0x8e/0xe0
+[    5.917713]  [<ffffffff810f0560>] rcu_check_callbacks+0x500/0x7f0
+[    5.917713]  [<ffffffff81149f6c>] ? acct_account_cputime+0x1c/0x20
+[    5.917713]  [<ffffffff810b8059>] ? account_system_time+0x79/0x120
+[    5.917713]  [<ffffffff81106b70>] ? tick_sched_handle.isra.14+0x60/0x60
+[    5.917713]  [<ffffffff810f6a29>] update_process_times+0x39/0x60
+[    5.917713]  [<ffffffff81106b35>] tick_sched_handle.isra.14+0x25/0x60
+[    5.917713]  [<ffffffff81106bad>] tick_sched_timer+0x3d/0x70
+[    5.917713]  [<ffffffff810f7334>] __hrtimer_run_queues+0xf4/0x260
+[    5.917713]  [<ffffffff810f7a88>] hrtimer_interrupt+0xa8/0x1a0
+[    5.917713]  [<ffffffff81055b3e>] local_apic_timer_interrupt+0x3e/0x60
+[    5.917713]  [<ffffffff8186f44b>] smp_apic_timer_interrupt+0x4b/0x70
+[    5.917713]  [<ffffffff8186cb94>] apic_timer_interrupt+0xd4/0xe0
+[    5.917713]  <EOI>  [<ffffffffc01012fc>] ? raid6_sse21_gen_syndrome+0xac/0x120 [raid6_pq]
+[    5.917713]  [<ffffffffc010128d>] ? raid6_sse21_gen_syndrome+0x3d/0x120 [raid6_pq]
+[  321.000257]  [<ffffffffc011911f>] init_module+0x11f/0x1000 [raid6_pq]
+[  321.000257]  [<ffffffffc0119000>] ? 0xffffffffc0119000
+[  321.000257]  [<ffffffff81002135>] do_one_initcall+0xb5/0x200
+[  321.000257]  [<ffffffff811fa195>] ? kmem_cache_alloc_trace+0x185/0x1f0
+[  321.000257]  [<ffffffff8185a350>] do_init_module+0x5f/0x1da
+[  321.000257]  [<ffffffff8111254c>] load_module+0x171c/0x1c80
+[  321.000257]  [<ffffffff8110e9d0>] ? __symbol_put+0x60/0x60
+[  321.000257]  [<ffffffff81222b50>] ? kernel_read+0x50/0x80
+[  321.000257]  [<ffffffff81112cf4>] SYSC_finit_module+0xb4/0xe0
+[  321.000257]  [<ffffffff81112d3e>] SyS_finit_module+0xe/0x10
+[  321.000257]  [<ffffffff8186bb5b>] entry_SYSCALL_64_fastpath+0x22/0xd0
+[  321.081472] raid6: sse2x1   gen() 38574208 MB/s
+[  321.160136] raid6: sse2x1   xor()  6706 MB/s
+[  321.232276] raid6: sse2x2   gen() 13795 MB/s

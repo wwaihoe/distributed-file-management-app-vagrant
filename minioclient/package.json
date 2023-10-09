@@ -1,0 +1,15 @@
+{
+  "name": "minioclient",
+  "version": "0.0.0",
+  "description": "",
+  "main": "minioclient.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "express": "~4.18.2",
+    "minio": "^7.1.3"
+  }
+}
