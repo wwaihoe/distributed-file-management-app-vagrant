@@ -1,6 +1,9 @@
 const http = require('http');
+const cors = require('cors');
 const express = require('express')
 const app = express()
+
+app.use(cors());
 
 const hostname = '10.0.2.15';
 const port = 8000;

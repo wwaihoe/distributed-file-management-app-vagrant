@@ -1,100 +1,136 @@
 const http = require('http');
+const cors = require('cors');
 const express = require('express')
-const fs = require('fs');
+const multer  = require('multer');
 
-const app = express()
+const app = express();
+
+app.use(express.urlencoded());
+app.use(express.json());
+app.use(express.text());
+app.use(cors());
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
 const hostname = "10.0.2.20";
 const port = 8000;
 
-const minio_add = "http://10.0.2.25"
-const minio_port = "8000"
+const minio_add = "http://10.0.2.25";
+const minio_port = "8000";
 
-var fileNames = [];
+var files = [];
 
-app.get('/', (req, eres) => {
-    res.send("TEST");
-});
+app.get('/', (req, res) => {
+    res.send(JSON.stringify(files));
+})
 
-app.post('/upload', async(req, res) => {
-    res.send("TEST");
-    var newFile = req.body.get("data");
+app.post('/upload', upload.single('file'), async(req, res, next) => {  
+    var newFile = req.file;
     //check if filename already exists
-    if (fileNames.includes(newFile.name)) {
+    var check = checkFileName(newFile.originalname);
+    if (check) {
         res.status(400);
-        res.send({message: "File with same name already exists. Please rename the file you want to upload."});
+        return res.send("File with same name already exists. Please rename the file you want to upload.");
     }
-    else {
-        try {
-            //get presigned url to upload file
-            const urlResponse = await fetch(`${minio_add}:${minio_port}/upload?name=${newFile.name}`);
-            var uploadURL = response.text();
-        } catch(err) {
-            console.log(err);
-        }
-        try {
+    //get presigned url to upload file  
+    try {
+        const urlResponse = await fetch(`${minio_add}:${minio_port}/upload?name=${newFile.originalname}`)
+        if (urlResponse.ok) {
+            var uploadURL = await urlResponse.text();
             //send request to minio server to upload file using presigned url
-            const response = await fetch(uploadURL, {
-                method: "PUT",
-                body: newFile
-            });
-            res.status = response.status;
-            if (response.status === 200) {
-                fileNames.push(newFile.name);
+            try {
+                const response = await fetch(uploadURL, {
+                    method: "PUT",
+                    mode: "cors",
+                    body: newFile.buffer
+                });
+                if (response.ok) {
+                    var newFileObj = {};
+                    newFileObj.name = newFile.originalname;
+                    newFileObj.type = newFile.mimetype;
+                    newFileObj.size = newFile.size;
+                    newFileObj.lastModified = req.body.lastModified;
+                    files.push(newFileObj);
+                }
+            } catch (err) {
+                console.log(err);
             }
-        } catch(err) {
-            console.log(err);
-        } finally {
-            res.end();
         }
-    }
-    
+        res.status(urlResponse.status);
+        res.end();
+    } catch (err) {
+        console.log(err);
+    };
 });
 
 app.post('/remove', async(req, res) => {
+    var fileName = req.body;
     //check if file existss in object store
-    if (!fileNames.includes(req.body)) {
+    var check = checkFileName(fileName);
+    if (!check) {
         res.status(400);
-        res.send({message: "File does not exist in object store."})
+        return res.send("File does not exist in object store.");
     }
-    else {
-        try {
-            //send request to minio server to remove file
-            const response = await fetch(`${minio_add}:${minio_port}/remove`, {
-                method: "POST",
-                body: fileName
-            });
-            res.status = response.status;
-        } catch(err) {
-            console.log(err);
-        } finally {
-            res.end();
-        }
+    try {
+        //send request to minio server to remove file
+        const response = await fetch(`${minio_add}:${minio_port}/remove`, {
+            method: "POST",
+            body: req.body
+        });
+        res.status(response.status);
+        for (i in files) {
+            if (files[i].name === fileName) {
+                files.splice(i, 1);
+            }
+        }  
+    } catch(err) {
+        console.log(err);
+    } finally {
+        res.end();
     }
 });
 
 app.post('/download', async(req, res) => {
+    var fileName = req.body;
     //check if file existss in object store
-    if (!fileNames.includes(req.body)) {
+    var check = checkFileName(fileName);
+    if (!check) {
         res.status(400);
-        res.send({message: "File does not exist in object store."})
+        return res.send("File does not exist in object store.");
     }
-    else {
-        try {
-            //send request to minio server to provide download link
-            const response = await fetch(`${minio_add}:${minio_port}/download`, {
-                method: "POST",
-                body: fileName
-            });
-            res.status = response.status;
-            var data = await response.json()
-            res.send({url: data.url});
-        } catch(err) {
-            console.log(err);
-        } finally {
-            res.end();
-        }
-    }
+    try {
+        //send request to minio server to provide download link
+        const response = await fetch(`${minio_add}:${minio_port}/download`, {
+            method: "POST",
+            body: fileName
+        })
+        res.status(response.status);
+        var downloadURL = await response.text()
+        res.send(downloadURL);
+    } catch(err) {
+        console.log(err);
+    } finally {
+        res.end();
+    };
 })
+
+function checkFileName(fileName) {
+    for (i in files) {
+        if (files[i].name === fileName) {
+            return true;
+        }
+    }  
+    return false;
+}
+
+function checkFileName(fileName) {
+    for (i in files) {
+        if (files[i].name === fileName) {
+            return true;
+        }
+    }  
+    return false;
+}
 
 app.listen(port, hostname, (err) => {
     if (err) return console.log(err);

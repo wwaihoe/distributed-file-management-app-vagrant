@@ -21,7 +21,9 @@
     </header>
 
   <div class="input-group">
-    <input type="file" class="form-control" id="inputGroupFile" aria-describedby="inputGroupFileAddon" aria-label="Upload">
+    <form enctype="multipart/form-data">
+      <input type="file" name="file" class="form-control" id="inputGroupFile" aria-describedby="inputGroupFileAddon" aria-label="Upload">
+    </form>
     <button class="btn btn-secondary" type="button" id="inputGroupFileAddon">Upload</button>
   </div>
 
@@ -31,6 +33,7 @@
       <tr>
         <th scope="col">File Name</th>
         <th scope="col">Type</th>
+        <th scope="col">Size (in bytes)</th>
         <th scope="col">Last Modified</th>
         <th scope="col"></th>
         <th scope="col"></th>
