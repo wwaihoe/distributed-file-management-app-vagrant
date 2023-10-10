@@ -1,5 +1,4 @@
-![image](https://github.com/wwaihoe/distributed-file-management-system/assets/91514179/07467cb3-4b57-448b-a647-146e8fc4af70)# distributed-file-management-system
-
+# distributed-file-management-system
 ## 3-Tiered Web App
 ### Setup
 Vagrant to run multiple virtual machines.
