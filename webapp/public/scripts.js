@@ -56,8 +56,8 @@ function loadObject(obj) {
     cell6.innerHTML = removeButton;
 }
 
-var fileInput = document.getElementById("inputGroupFileAddon");
-fileInput.addEventListener("click", uploadFile);
+var fileUploadBtn = document.getElementById("inputGroupFileAddon");
+fileUploadBtn.addEventListener("click", uploadFile);
 
 async function uploadFile() {
     var fileInput = document.getElementById("inputGroupFile");
@@ -65,6 +65,8 @@ async function uploadFile() {
     if (fileList.length === 0) {
         alert("No files selected for upload!");
     } else {
+        fileUploadBtn.disabled = true;
+        fileInput.disabled = true;
         var file = fileList[0];
         console.log("Upload: " + file.name);
         const formData = new FormData();
@@ -94,6 +96,8 @@ async function uploadFile() {
             console.log(err);
             alert("Failed to upload file!");
         };
+        fileUploadBtn.disabled = false;
+        fileInput.disabled = false;
         fileInput.value = "";
     }
 }
@@ -103,12 +107,16 @@ objectTable.addEventListener("click", function(e) {
     if (e.target.classList.contains("fileRemoveInput")) {
         var fileName = e.target.parentNode.parentNode.getElementsByClassName("fileName")[0].innerHTML;
         console.log("Remove: " + fileName);
+        e.target.disabled = true;
         removeFile(fileName);
+        e.target.disabled = false;
     }
     else if (e.target.classList.contains("fileDownloadInput")) {
         var fileName = e.target.parentNode.parentNode.getElementsByClassName("fileName")[0].innerHTML;
         console.log("Download: " + fileName);
+        e.target.disabled = true;
         downloadFile(fileName);
+        e.target.disabled = false;
     }
 });
 
