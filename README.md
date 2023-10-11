@@ -1,5 +1,20 @@
 # distributed-file-management-system
 # 3-Tiered Web App
+## Demo
+https://github.com/wwaihoe/distributed-file-management-system/assets/91514179/bd5619e5-58ba-41fb-8e09-a8beb530e034
+
+Home page:
+![image](https://github.com/wwaihoe/distributed-file-management-system/assets/91514179/4b37be05-be4b-48e9-9ad7-021c7c91075d)
+
+Select file to upload:
+![image](https://github.com/wwaihoe/distributed-file-management-system/assets/91514179/c7c4d9da-24da-4735-9d2a-de419494c4f4)
+
+See uploaded file (able to download or delete with the buttons on the right):
+![image](https://github.com/wwaihoe/distributed-file-management-system/assets/91514179/07dc728f-b7a6-44dc-8f24-77a629f174e1)
+ 
+Files are uploaded to MinIO object store:
+![image](https://github.com/wwaihoe/distributed-file-management-system/assets/91514179/43687622-d8ba-4c8b-ad2a-b14a8544edc0)
+##
 ## Setup
 Vagrant to run multiple virtual machines.
 ##
@@ -59,19 +74,4 @@ d.	Refresh page
 4.	In web app front end VM, navigate to “webapp” folder and run front end server with “node app.js”.
 5.	In applogic VM, navigate to “applogic” folder and run application logic server with “node app.js”.
 6.	In objectstore VM, navigate to “minioclient” folder and use command “minio server ~/minio --console-address :9090” to start MinIO server. Run MinIO client server with “node minioclient.js”.
-##
-## Demo
-https://github.com/wwaihoe/distributed-file-management-system/assets/91514179/bd5619e5-58ba-41fb-8e09-a8beb530e034
-
-Home page:
-![image](https://github.com/wwaihoe/distributed-file-management-system/assets/91514179/4b37be05-be4b-48e9-9ad7-021c7c91075d)
-
-Select file to upload:
-![image](https://github.com/wwaihoe/distributed-file-management-system/assets/91514179/c7c4d9da-24da-4735-9d2a-de419494c4f4)
-
-See uploaded file (able to download or delete with the buttons on the right):
-![image](https://github.com/wwaihoe/distributed-file-management-system/assets/91514179/07dc728f-b7a6-44dc-8f24-77a629f174e1)
- 
-Files are uploaded to MinIO object store:
-![image](https://github.com/wwaihoe/distributed-file-management-system/assets/91514179/43687622-d8ba-4c8b-ad2a-b14a8544edc0)
  
