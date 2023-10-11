@@ -1,18 +1,22 @@
 # distributed-file-management-system
 ## 3-Tiered Web App
 ### Setup
-Vagrant to run multiple virtual machines.\
+Vagrant to run multiple virtual machines.
+<br>
 3 virtual machines are run on Oracle VM VirtualBox.
--	Vagrant box used: " ubuntu/mantic64” (Ubuntu 23.10 (Mantic Minotaur))\
+-	Vagrant box used: " ubuntu/mantic64” (Ubuntu 23.10 (Mantic Minotaur))
+<br>
 1. Web application front-end
 - Node.js, Express.js
 -	User-interface
     -	Shows all files and their attributes.
-    -	Provides upload/download/remove functionality for user.\
+    -	Provides upload/download/remove functionality for user.
+<br>
 2. Application logic
 -	Node.js, Express.js, Multer
 -	Keeps track of files and their attributes in the current state.
--	Checks if file in upload/download/remove request is in storage.\
+-	Checks if file in upload/download/remove request is in storage.
+<br>
 3. MinIO object storage (Client and Server)
 -	Node.js, Express.js, MinIO
 -	MinIO server for object storage.
@@ -28,21 +32,21 @@ a.	Upload
 4.	App logic sends GET request to MinIO for presigned URL for file upload.
 5.	Server with MinIO client sends presigned URL to app logic.
 6.	App logic sends PUT request with file to be uploaded to the presigned URL to upload file to MinIO.
-7.	Upon successful upload, app logic keeps track of the file and its attributes.\
-
+7.	Upon successful upload, app logic keeps track of the file and its attributes.
+<br>
 b.	Download
 1.	Upon clicking download button, web app sends POST request with the file to app logic.
 2.	App logic checks if file exists.
 3.	If exists, app logic sends POST request with filename to server with MinIO client.
 4.	 Server with MinIO client sends presigned URL to app logic.
-5.	App logic sends the URL back to the web app for download to commence.\
-
+5.	App logic sends the URL back to the web app for download to commence.
+<br>
 c.	Remove
 1.	Upon clicking the remove button, web app sends POST request with the file to app logic.
 2.	App logic checks if file exists.
 3.	If exists, app logic sends POST request with filename to server with MinIO client.
-4.	Server with MinIO client removes file from MinIO bucket.\
-
+4.	Server with MinIO client removes file from MinIO bucket.
+<br>
 d.	Refresh page
 1.	Every time the window loads, web app sends a GET request to app logic.
 2.	App logic sends the array of files and their attributes to web app.
